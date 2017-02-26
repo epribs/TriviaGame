@@ -20,6 +20,20 @@ var quizData = [
 		a3:"The banshees",
 		c:"The dementors",
 	},
+	{
+		q:"What is the name of the company Ryan sets up that sends messages to all of your devices at once?",
+		a1:"Wuphf",
+		a2:"Barkk",
+		a3:"Grrowl",
+		c:"Wuphf",
+	},
+	{
+		q:"What\'s in the giant pot that Kevin drops all over the office floor?",
+		a1:"Gravy",
+		a2:"Bolognese",
+		a3:"Chili",
+		c:"Chili",
+	}
 ]
 var correctAnswers = 0;
 var wrongAnswers = 0;
@@ -28,7 +42,7 @@ var questionsAnswered = 0;
 
 function start() {
 	$("#start").addClass("hide");
-	quiz();
+	time();
 }
 
 function quiz() {
@@ -56,14 +70,14 @@ function quiz() {
 		var a1 = quizData[i].a1;
 		var a1Lab = $("<label>");
 		a1Lab.addClass("radio-inline");
-		var a1In = $("<input type=\"radio\" id=\"group" + [i] + "\" value=\"" + a1 + "\">");
+		var a1In = $("<input type=\"radio\" name=\"group" + [i] + "\" id=\"group" + [i] + "\" value=\"" + a1 + "\">");
 		a1Lab.append(a1In);
 		a1Lab.append(a1);
 
 		var a2 = quizData[i].a2;
 		var a2Lab = $("<label>");
 		a2Lab.addClass("radio-inline");
-		var a2In = $("<input type=\"radio\" id=\"group" + [i] + "\" value=\"" + a2 + "\">");
+		var a2In = $("<input type=\"radio\" name=\"group" + [i] + "\" id=\"group" + [i] + "\" value=\"" + a2 + "\">");
 		a2Lab.append(a2In);
 		a2Lab.append(a2);
 
@@ -71,7 +85,7 @@ function quiz() {
 		var a3 = quizData[i].a3;
 		var a3Lab = $("<label>");
 		a3Lab.addClass("radio-inline");
-		var a3In = $("<input type=\"radio\" id=\"group" + [i] + "\" value=\"" + a3 + "\">");
+		var a3In = $("<input type=\"radio\" name=\"group" + [i] + "\" id=\"group" + [i] + "\" value=\"" + a3 + "\">");
 		a3Lab.append(a3In);
 		a3Lab.append(a3);
 
@@ -86,7 +100,7 @@ function quiz() {
 }
 
 function check() {
-			event.preventDefault();
+			$("button").unbind();
 			for (var i = 0; i < quizData.length; i++) {
 			var c = quizData[i].c;
 			console.log(c);
@@ -108,7 +122,31 @@ function check() {
 			$("#quiz").addClass("hide");
 		}
 	}
-function reset () {
+
+function time() {
+	quiz();
+	var timeLeft = 10;
+	var timer = $("#timer");
+	var timerId = setInterval(countdown,1000);
+	timer.text(timeLeft + " seconds remaining");
+
+	function countdown () {
+		if (timeLeft == 0) {
+			clearTimeout(timerId);
+			check();
+		} else {
+			timer.text(timeLeft + " seconds remaining");
+			timeLeft--;
+		}
+
+	}
+
+
+
+
+}
+
+function reset() {
 	$("#quiz").removeClass("hide");
 	$("#score").addClass("hide");
 }
