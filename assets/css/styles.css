@@ -52,3 +52,11 @@ pre {
 	background: #333;
 	color:#fff;
 }
+
+li {
+	list-style-type: none;
+	padding: 10px 0;
+}
+.panel {
+	margin: 20px 0;
+}

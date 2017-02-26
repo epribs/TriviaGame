@@ -32,49 +32,85 @@ function start() {
 }
 
 function quiz() {
-	for (var i = 0; i < quizData.length; i++) {
-		//Create qDiv
-		var qDiv = $("<div>");
-		qDiv.append("id", "question");
+	var qDiv = $("<div>");
+		qDiv.attr("id", "question");
 		$("#questionDiv").append(qDiv)
-		
+	
+		var form = $("<form id=\"quizForm\" method=\"post\" name=\"buttons\" onsubmit=\"return false\">");
+		qDiv.append(form);
+
+
+
+	for (var i = 0; i < quizData.length; i++) {
 		//Get and create question
 		var q = quizData[i].q;
-		var qHeader = $("<h3>");
+		var qHeader = $("<div>");
+		qHeader.addClass("question");
+		var qLi = $("<li>");
+
 		qHeader.text([i + 1] + ". " + q);
 		//Add to qDiv
-		$("#question").append(qHeader);
-
+		form.append(qLi);
+		qLi.append(qHeader);
 		//Create input buttons
 		var a1 = quizData[i].a1;
-		var a1In = $("<input type=\"radio\">");
-		a1In.text(a1);
+		var a1Lab = $("<label>");
+		a1Lab.addClass("radio-inline");
+		var a1In = $("<input type=\"radio\" id=\"group" + [i] + "\" value=\"" + a1 + "\">");
+		a1Lab.append(a1In);
+		a1Lab.append(a1);
 
 		var a2 = quizData[i].a2;
-		var a2In = $("<input>");
-		a2In.append("type", "radio");
-		a2In.append("data-value", a2);
-		a2In.text(a2);
+		var a2Lab = $("<label>");
+		a2Lab.addClass("radio-inline");
+		var a2In = $("<input type=\"radio\" id=\"group" + [i] + "\" value=\"" + a2 + "\">");
+		a2Lab.append(a2In);
+		a2Lab.append(a2);
 
 
 		var a3 = quizData[i].a3;
-		var a3In = $("<input>");
-		a3In.append("type", "radio");
-		a3In.append("data-value", a3);
-		a3In.text(a3);
+		var a3Lab = $("<label>");
+		a3Lab.addClass("radio-inline");
+		var a3In = $("<input type=\"radio\" id=\"group" + [i] + "\" value=\"" + a3 + "\">");
+		a3Lab.append(a3In);
+		a3Lab.append(a3);
 
-		//Create Answer Div
-		var aDiv = $("<div>");
-		aDiv.append("id", "answers");
-		//Add Answer to Question Div
-		$("#question").append(a1In);
-		$("#question").append(a2In);
-		$("#question").append(a3In);
-
-		var c = quizData[i].c;
-
-		// var quest = 
-		$
-		
+		qLi.append(a1Lab);
+		qLi.append(a2Lab);
+		qLi.append(a3Lab);
 	}
+
+		var submitBtn = $("<button class=\"btn btn-default btn-lg\" type=\"button\" onclick=\"check()\">Submit</button>");
+		form.append(submitBtn);
+
 }
+
+function check() {
+			event.preventDefault();
+			for (var i = 0; i < quizData.length; i++) {
+			var c = quizData[i].c;
+			console.log(c);
+			var radio = document.getElementById("group" + [i]);
+			console.log(radio.value);
+			if (radio.value == c && radio.checked) {
+				correctAnswers++;
+				questionsAnswered++;
+				console.log("correct:" + correctAnswers);
+			} else {
+				wrongAnswers++;
+				questionsAnswered++;
+				console.log("wrong:" + wrongAnswers);
+			}
+			$("#score").removeClass("hide");
+			$("#answered").text("Questions Answered: " + questionsAnswered);
+			$("#correct").text("Correct: " + correctAnswers);
+			$("#wrong").text("Wrong: " + wrongAnswers);
+			$("#quiz").addClass("hide");
+		}
+	}
+function reset () {
+	$("#quiz").removeClass("hide");
+	$("#score").addClass("hide");
+}
+
+
