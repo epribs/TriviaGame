@@ -42,7 +42,7 @@ var questionsAnswered = 0;
 
 function start() {
 	$("#start").addClass("hide");
-	time();
+	quiz();
 }
 
 function quiz() {
